@@ -1,10 +1,17 @@
 import React from 'react'
 
 const Navbar = ({ searchTerm, setSearchTerm, filteredComments, totalComments }) => {
+  // Calculate how many results we found for the search info
+  const resultCount = filteredComments.length
+  const hasSearchResults = searchTerm && searchTerm.trim().length > 0
+
   return (
     <nav className="navbar">
       <div className="nav-content">
+        {/* App title */}
         <h1 className="nav-title">Comments Dashboard</h1>
+        
+        {/* Search input section */}
         <div className="search-container">
           <input
             type="text"
@@ -14,9 +21,11 @@ const Navbar = ({ searchTerm, setSearchTerm, filteredComments, totalComments }) 
             className="search-input"
           />
           <span className="search-icon">🔍</span>
-          {searchTerm && (
+          
+          {/* Show search results info when user is searching */}
+          {hasSearchResults && (
             <div className="search-info">
-              Searching across all columns • {filteredComments.length} results found
+              Searching across all columns • {resultCount} results found
             </div>
           )}
         </div>

@@ -4,34 +4,42 @@ export const useSearch = (comments, getPostTitle) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredComments, setFilteredComments] = useState([])
 
-  // Enhanced search functionality for the four mandatory columns
+  // Filter comments based on search term
   useEffect(() => {
-    const filtered = comments.filter(comment => {
-      if (!searchTerm.trim()) return true
+    const performSearch = () => {
+      const filtered = comments.filter(comment => {
+        // If no search term, show all comments
+        if (!searchTerm.trim()) return true
+        
+        const searchLower = searchTerm.toLowerCase()
+        const email = comment.email.toLowerCase()
+        const name = comment.name.toLowerCase()
+        const body = comment.body.toLowerCase()
+        const postTitle = getPostTitle(comment.postId).toLowerCase()
+        
+        // Search across all four columns: Email, Name, Body, and Post title
+        return email.includes(searchLower) || 
+               name.includes(searchLower) || 
+               body.includes(searchLower) || 
+               postTitle.includes(searchLower)
+      })
       
-      const searchLower = searchTerm.toLowerCase()
-      const email = comment.email.toLowerCase()
-      const name = comment.name.toLowerCase()
-      const body = comment.body.toLowerCase()
-      const postTitle = getPostTitle(comment.postId).toLowerCase()
-      
-      // Search across all four mandatory columns: Email, Name, Body, Post
-      return email.includes(searchLower) || 
-             name.includes(searchLower) || 
-             body.includes(searchLower) || 
-             postTitle.includes(searchLower)
-    })
+      setFilteredComments(filtered)
+    }
     
-    setFilteredComments(filtered)
+    performSearch()
   }, [comments, searchTerm, getPostTitle])
 
-  // Highlight search terms in text
+  // Function to highlight search terms in text
   const highlightText = (text, searchTerm) => {
+    // If no search term, just return the original text
     if (!searchTerm.trim()) return text
     
+    // Create regex to match search term (case insensitive)
     const regex = new RegExp(`(${searchTerm})`, 'gi')
     const parts = text.split(regex)
     
+    // Map through parts and wrap matching parts in highlight tags
     return parts.map((part, index) => 
       regex.test(part) ? (
         <mark key={index} className="search-highlight">{part}</mark>

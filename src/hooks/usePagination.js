@@ -9,7 +9,7 @@ export const usePagination = (filteredComments, itemsPerPage = 10) => {
   const endIndex = startIndex + itemsPerPage
   const currentComments = filteredComments.slice(startIndex, endIndex)
 
-  // Reset to first page when filtered comments change
+  // Reset to first page when the number of filtered comments changes
   useEffect(() => {
     setCurrentPage(1)
   }, [filteredComments.length])

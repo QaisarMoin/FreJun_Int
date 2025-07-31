@@ -21,6 +21,7 @@ const CommentsTable = ({
   return (
     <div className="table-wrapper">
       <table className="comments-table">
+        {/* Table header with column names */}
         <thead>
           <tr>
             <th>Email</th>
@@ -29,12 +30,17 @@ const CommentsTable = ({
             <th>Post</th>
           </tr>
         </thead>
+        
+        {/* Table body with comment rows */}
         <tbody>
           {currentComments.map(comment => (
             <tr key={comment.id} className="table-row">
+              {/* Email column - read-only */}
               <td className="email-cell">
                 {highlightText(comment.email, searchTerm)}
               </td>
+              
+              {/* Name column - editable */}
               <td className="name-cell">
                 <EditableCell
                   comment={comment}
@@ -49,6 +55,8 @@ const CommentsTable = ({
                   highlightText={highlightText}
                 />
               </td>
+              
+              {/* Body column - editable */}
               <td className="body-cell">
                 <EditableCell
                   comment={comment}
@@ -63,6 +71,8 @@ const CommentsTable = ({
                   highlightText={highlightText}
                 />
               </td>
+              
+              {/* Post column - read-only, shows post title */}
               <td className="post-cell">
                 {highlightText(getPostTitle(comment.postId), searchTerm)}
               </td>

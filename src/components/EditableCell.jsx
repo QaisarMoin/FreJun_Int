@@ -13,12 +13,16 @@ const EditableCell = ({
   searchTerm, 
   highlightText 
 }) => {
-  const isEditingThis = isEditing === comment.id
+  // Check if this specific cell is currently being edited
+  const isCurrentlyEditing = isEditing === comment.id
+  const isBodyField = field === 'body'
 
-  if (isEditingThis) {
+  // If we're editing this cell, show the input/textarea
+  if (isCurrentlyEditing) {
     return (
       <div className="edit-container">
-        {field === 'body' ? (
+        {isBodyField ? (
+          // Use textarea for body field since it can be longer
           <textarea
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
@@ -29,6 +33,7 @@ const EditableCell = ({
             autoFocus
           />
         ) : (
+          // Use regular input for name field
           <input
             type="text"
             value={editValue}
@@ -44,6 +49,7 @@ const EditableCell = ({
     )
   }
 
+  // If not editing, show the clickable text
   return (
     <div 
       className={`editable-${field}`}

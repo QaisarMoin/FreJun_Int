@@ -6,12 +6,19 @@ import Pagination from './components/Pagination'
 import { useComments } from './hooks/useComments'
 import { useSearch } from './hooks/useSearch.jsx'
 import { usePagination } from './hooks/usePagination'
-import { useEditing } from './hooks/useEditing'
+import { useEditing } from './hooks/useEditing.jsx'
 
 function App() {
+  // Main data management - handles API calls and localStorage
   const { comments, loading, getPostTitle, updateComment } = useComments()
+  
+  // Search functionality with highlighting
   const { searchTerm, setSearchTerm, filteredComments, highlightText } = useSearch(comments, getPostTitle)
+  
+  // Pagination logic - handles page navigation
   const { currentPage, setCurrentPage, totalPages, currentComments } = usePagination(filteredComments)
+  
+  // Inline editing functionality
   const {
     editingName,
     editingBody,
@@ -26,6 +33,7 @@ function App() {
     handleKeyPress
   } = useEditing(updateComment)
 
+  // Show loading spinner while data is being fetched
   if (loading) {
     return (
       <div className="loading-container">
@@ -37,6 +45,7 @@ function App() {
 
   return (
     <div className="app">
+      {/* Top navigation with search */}
       <Navbar 
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -44,8 +53,10 @@ function App() {
         totalComments={comments.length}
       />
 
+      {/* Main content area */}
       <main className="main-content">
         <div className="table-container">
+          {/* Table header with results count */}
           <div className="table-header">
             <h2>Comments Table</h2>
             <span className="results-count">
@@ -54,6 +65,7 @@ function App() {
             </span>
           </div>
 
+          {/* The main comments table */}
           <CommentsTable
             currentComments={currentComments}
             searchTerm={searchTerm}
@@ -72,6 +84,7 @@ function App() {
             handleKeyPress={handleKeyPress}
           />
 
+          {/* Bottom pagination controls */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

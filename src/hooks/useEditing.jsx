@@ -6,47 +6,48 @@ export const useEditing = (updateComment) => {
   const [editNameValue, setEditNameValue] = useState('')
   const [editBodyValue, setEditBodyValue] = useState('')
 
-  // Handle name edit start
+  // Start editing the name field
   const handleNameEditStart = (comment) => {
     setEditingName(comment.id)
     setEditNameValue(comment.name)
   }
 
-  // Handle name edit save
+  // Save changes to the name field
   const handleNameEditSave = (commentId) => {
     updateComment(commentId, { name: editNameValue })
     setEditingName(null)
     setEditNameValue('')
   }
 
-  // Handle name edit cancel
+  // Cancel editing the name field
   const handleNameEditCancel = () => {
     setEditingName(null)
     setEditNameValue('')
   }
 
-  // Handle body edit start
+  // Start editing the body field
   const handleBodyEditStart = (comment) => {
     setEditingBody(comment.id)
     setEditBodyValue(comment.body)
   }
 
-  // Handle body edit save
+  // Save changes to the body field
   const handleBodyEditSave = (commentId) => {
     updateComment(commentId, { body: editBodyValue })
     setEditingBody(null)
     setEditBodyValue('')
   }
 
-  // Handle body edit cancel
+  // Cancel editing the body field
   const handleBodyEditCancel = () => {
     setEditingBody(null)
     setEditBodyValue('')
   }
 
-  // Handle key press for save/cancel
+  // Handle keyboard events for save/cancel
   const handleKeyPress = (e, commentId, type) => {
     if (e.key === 'Enter' && !e.shiftKey) {
+      // Enter key saves the changes (but not Shift+Enter for textarea)
       e.preventDefault()
       if (type === 'name') {
         handleNameEditSave(commentId)
@@ -54,6 +55,7 @@ export const useEditing = (updateComment) => {
         handleBodyEditSave(commentId)
       }
     } else if (e.key === 'Escape') {
+      // Escape key cancels editing
       if (type === 'name') {
         handleNameEditCancel()
       } else if (type === 'body') {

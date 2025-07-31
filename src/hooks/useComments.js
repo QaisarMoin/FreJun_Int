@@ -5,10 +5,11 @@ export const useComments = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Fetch comments and posts on component mount
+  // Fetch data from API when component mounts
   useEffect(() => {
-    const fetchData = async () => {
+    const loadData = async () => {
       try {
+        // Fetch both comments and posts in parallel for better performance
         const [commentsResponse, postsResponse] = await Promise.all([
           fetch('https://jsonplaceholder.typicode.com/comments'),
           fetch('https://jsonplaceholder.typicode.com/posts')
@@ -17,14 +18,16 @@ export const useComments = () => {
         const commentsData = await commentsResponse.json()
         const postsData = await postsResponse.json()
         
-        // Load saved comments from localStorage and merge with fresh data
-        const savedComments = localStorage.getItem('comments')
-        if (savedComments) {
-          const savedCommentsData = JSON.parse(savedComments)
-          // Merge saved edits with fresh data
+        // Check if we have any saved comments in localStorage
+        const savedCommentsJson = localStorage.getItem('comments')
+        if (savedCommentsJson) {
+          const savedCommentsData = JSON.parse(savedCommentsJson)
+          
+          // Merge saved edits with fresh API data
           const mergedComments = commentsData.map(comment => {
             const savedComment = savedCommentsData.find(saved => saved.id === comment.id)
             if (savedComment) {
+              // Only use saved data if it's different from the original
               return {
                 ...comment,
                 name: savedComment.name !== comment.name ? savedComment.name : comment.name,
@@ -35,6 +38,7 @@ export const useComments = () => {
           })
           setComments(mergedComments)
         } else {
+          // No saved data, use fresh API data
           setComments(commentsData)
         }
         
@@ -46,16 +50,16 @@ export const useComments = () => {
       }
     }
 
-    fetchData()
+    loadData()
   }, [])
 
-  // Get post title by postId
+  // Helper function to get post title by post ID
   const getPostTitle = (postId) => {
     const post = posts.find(p => p.id === postId)
     return post ? post.title : 'Unknown Post'
   }
 
-  // Update comment
+  // Function to update a comment and save to localStorage
   const updateComment = (commentId, updates) => {
     const updatedComments = comments.map(comment =>
       comment.id === commentId
@@ -64,6 +68,7 @@ export const useComments = () => {
     )
     
     setComments(updatedComments)
+    // Persist changes to localStorage
     localStorage.setItem('comments', JSON.stringify(updatedComments))
   }
 
