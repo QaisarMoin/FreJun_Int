@@ -6,48 +6,48 @@ export const useEditing = (updateComment) => {
   const [editNameValue, setEditNameValue] = useState('')
   const [editBodyValue, setEditBodyValue] = useState('')
 
-  // Start editing the name field
+  // Click to edit name
   const handleNameEditStart = (comment) => {
     setEditingName(comment.id)
     setEditNameValue(comment.name)
   }
 
-  // Save changes to the name field
+  // Save the name changes
   const handleNameEditSave = (commentId) => {
     updateComment(commentId, { name: editNameValue })
     setEditingName(null)
     setEditNameValue('')
   }
 
-  // Cancel editing the name field
+  // Cancel name editing
   const handleNameEditCancel = () => {
     setEditingName(null)
     setEditNameValue('')
   }
 
-  // Start editing the body field
+  // Click to edit body text
   const handleBodyEditStart = (comment) => {
     setEditingBody(comment.id)
     setEditBodyValue(comment.body)
   }
 
-  // Save changes to the body field
+  // Save the body changes
   const handleBodyEditSave = (commentId) => {
     updateComment(commentId, { body: editBodyValue })
     setEditingBody(null)
     setEditBodyValue('')
   }
 
-  // Cancel editing the body field
+  // Cancel body editing
   const handleBodyEditCancel = () => {
     setEditingBody(null)
     setEditBodyValue('')
   }
 
-  // Handle keyboard events for save/cancel
+  // Handle keyboard shortcuts
   const handleKeyPress = (e, commentId, type) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      // Enter key saves the changes (but not Shift+Enter for textarea)
+      // Enter saves, but Shift+Enter makes new line in textarea
       e.preventDefault()
       if (type === 'name') {
         handleNameEditSave(commentId)
@@ -55,7 +55,7 @@ export const useEditing = (updateComment) => {
         handleBodyEditSave(commentId)
       }
     } else if (e.key === 'Escape') {
-      // Escape key cancels editing
+      // Escape cancels editing
       if (type === 'name') {
         handleNameEditCancel()
       } else if (type === 'body') {

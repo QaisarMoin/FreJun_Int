@@ -15,7 +15,7 @@ const Navbar = ({ searchTerm, setSearchTerm, filteredComments, totalComments }) 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search in Email, Name, Body, or Post..."
+            placeholder="Search in Name or Email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -23,11 +23,11 @@ const Navbar = ({ searchTerm, setSearchTerm, filteredComments, totalComments }) 
           <span className="search-icon">🔍</span>
           
           {/* Show search results info when user is searching */}
-          {hasSearchResults && (
+          {/* {hasSearchResults && (
             <div className="search-info">
-              Searching across all columns • {resultCount} results found
+              Searching in Name and Email • {resultCount} results found
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </nav>

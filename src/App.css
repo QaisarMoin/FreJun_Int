@@ -111,14 +111,15 @@ body {
 
 /* Main Content */
 .main-content {
-  flex: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1600px;
   width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .table-container {
+  max-width: 1600px;
+  margin: 0 auto;
   background: white;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -160,7 +161,7 @@ body {
 .comments-table th {
   background: #f8fafc;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: #374151;
   border-bottom: 2px solid #e1e5e9;
@@ -173,6 +174,7 @@ body {
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;
   vertical-align: top;
+  text-align: center;
 }
 
 .table-row:hover {

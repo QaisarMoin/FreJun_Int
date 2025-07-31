@@ -35,12 +35,12 @@ const CommentsTable = ({
         <tbody>
           {currentComments.map(comment => (
             <tr key={comment.id} className="table-row">
-              {/* Email column - read-only */}
+              {/* Email column - read-only with highlighting */}
               <td className="email-cell">
                 {highlightText(comment.email, searchTerm)}
               </td>
               
-              {/* Name column - editable */}
+              {/* Name column - editable with highlighting */}
               <td className="name-cell">
                 <EditableCell
                   comment={comment}
@@ -56,7 +56,7 @@ const CommentsTable = ({
                 />
               </td>
               
-              {/* Body column - editable */}
+              {/* Body column - editable without highlighting */}
               <td className="body-cell">
                 <EditableCell
                   comment={comment}
@@ -67,14 +67,14 @@ const CommentsTable = ({
                   onEditStart={handleBodyEditStart}
                   onEditSave={handleBodyEditSave}
                   onKeyPress={handleKeyPress}
-                  searchTerm={searchTerm}
+                  searchTerm="" // No highlighting for body
                   highlightText={highlightText}
                 />
               </td>
               
-              {/* Post column - read-only, shows post title */}
+              {/* Post column - read-only without highlighting */}
               <td className="post-cell">
-                {highlightText(getPostTitle(comment.postId), searchTerm)}
+                {getPostTitle(comment.postId)}
               </td>
             </tr>
           ))}
