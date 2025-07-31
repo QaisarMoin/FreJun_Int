@@ -17,7 +17,27 @@ export const useComments = () => {
         const commentsData = await commentsResponse.json()
         const postsData = await postsResponse.json()
         
-        setComments(commentsData)
+        // Load saved comments from localStorage and merge with fresh data
+        const savedComments = localStorage.getItem('comments')
+        if (savedComments) {
+          const savedCommentsData = JSON.parse(savedComments)
+          // Merge saved edits with fresh data
+          const mergedComments = commentsData.map(comment => {
+            const savedComment = savedCommentsData.find(saved => saved.id === comment.id)
+            if (savedComment) {
+              return {
+                ...comment,
+                name: savedComment.name !== comment.name ? savedComment.name : comment.name,
+                body: savedComment.body !== comment.body ? savedComment.body : comment.body
+              }
+            }
+            return comment
+          })
+          setComments(mergedComments)
+        } else {
+          setComments(commentsData)
+        }
+        
         setPosts(postsData)
         setLoading(false)
       } catch (error) {
@@ -35,10 +55,23 @@ export const useComments = () => {
     return post ? post.title : 'Unknown Post'
   }
 
+  // Update comment
+  const updateComment = (commentId, updates) => {
+    const updatedComments = comments.map(comment =>
+      comment.id === commentId
+        ? { ...comment, ...updates }
+        : comment
+    )
+    
+    setComments(updatedComments)
+    localStorage.setItem('comments', JSON.stringify(updatedComments))
+  }
+
   return {
     comments,
     posts,
     loading,
-    getPostTitle
+    getPostTitle,
+    updateComment
   }
 } 

@@ -6,11 +6,25 @@ import Pagination from './components/Pagination'
 import { useComments } from './hooks/useComments'
 import { useSearch } from './hooks/useSearch.jsx'
 import { usePagination } from './hooks/usePagination'
+import { useEditing } from './hooks/useEditing'
 
 function App() {
-  const { comments, loading, getPostTitle } = useComments()
+  const { comments, loading, getPostTitle, updateComment } = useComments()
   const { searchTerm, setSearchTerm, filteredComments, highlightText } = useSearch(comments, getPostTitle)
   const { currentPage, setCurrentPage, totalPages, currentComments } = usePagination(filteredComments)
+  const {
+    editingName,
+    editingBody,
+    editNameValue,
+    editBodyValue,
+    setEditNameValue,
+    setEditBodyValue,
+    handleNameEditStart,
+    handleBodyEditStart,
+    handleNameEditSave,
+    handleBodyEditSave,
+    handleKeyPress
+  } = useEditing(updateComment)
 
   if (loading) {
     return (
@@ -45,6 +59,17 @@ function App() {
             searchTerm={searchTerm}
             highlightText={highlightText}
             getPostTitle={getPostTitle}
+            editingName={editingName}
+            editingBody={editingBody}
+            editNameValue={editNameValue}
+            editBodyValue={editBodyValue}
+            setEditNameValue={setEditNameValue}
+            setEditBodyValue={setEditBodyValue}
+            handleNameEditStart={handleNameEditStart}
+            handleBodyEditStart={handleBodyEditStart}
+            handleNameEditSave={handleNameEditSave}
+            handleBodyEditSave={handleBodyEditSave}
+            handleKeyPress={handleKeyPress}
           />
 
           <Pagination

@@ -206,6 +206,65 @@ body {
   max-width: 200px;
 }
 
+/* Editable Fields */
+.editable-name,
+.editable-body {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.editable-name:hover,
+.editable-body:hover {
+  background: rgba(102, 126, 234, 0.05);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+.editable-name:active,
+.editable-body:active {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Edit Container */
+.edit-container {
+  position: relative;
+}
+
+.edit-hint {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Edit Input Styles */
+.edit-input,
+.edit-textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: white;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+}
+
+.edit-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
 /* Pagination Styles */
 .pagination {
   display: flex;
@@ -332,6 +391,10 @@ body {
     justify-content: center;
   }
   
+  .edit-hint {
+    font-size: 0.7rem;
+  }
+  
   .search-info {
     font-size: 0.75rem;
     padding: 0.4rem 0.6rem;
@@ -345,6 +408,16 @@ body {
   
   .table-header h2 {
     font-size: 1.25rem;
+  }
+  
+  .editable-name,
+  .editable-body {
+    padding: 0.25rem;
+  }
+  
+  .edit-input,
+  .edit-textarea {
+    font-size: 0.85rem;
   }
   
   .search-highlight {
