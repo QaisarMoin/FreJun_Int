@@ -55,7 +55,7 @@ const EditableCell = ({
       className={`editable-${field}`}
       onClick={() => onEditStart(comment)}
     >
-      {/* {highlightText(comment[field], searchTerm)} */}
+      {highlightText(comment[field], searchTerm)}
       {comment[field]}
     </div>
   )
